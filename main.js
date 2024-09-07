@@ -23,10 +23,10 @@ function addRow(event) {
 function edit(id) {
     const row = document.querySelector(`tr[data-id="${id}"]`);
     if (row) {
-        // Mevcut satır HTML'ini kaydet
+        // mevcut satırı kaydediyo
         originalRowHtml[id] = row.innerHTML;
 
-        // Satırda düzenleme için bir form oluştur
+        // satır düzenlemesini sağlayan form
         const urunBarkod = row.querySelector('td:nth-child(2)').textContent;
         const urunTur = row.querySelector('td:nth-child(5)').textContent;
         const etiketIP = row.querySelector('td:nth-child(6)').textContent;
@@ -34,7 +34,7 @@ function edit(id) {
         const urunIsim = row.querySelector('td:nth-child(3)').textContent;
         const urunFiyat = row.querySelector('td:nth-child(4)').textContent;
 
-        // Düzenleme moduna geç
+        // düzenleme moduna geçme
         row.innerHTML = `
             <td>${id}</td>
             <td><input type="text" value="${urunBarkod}" id="editUrunBarkod-${id}"></td>
@@ -81,10 +81,10 @@ function saveEdit(id) {
 function cancelEdit(id) {
     const row = document.querySelector(`tr[data-id="${id}"]`);
     if (row) {
-        // Düzenleme sırasında kaydedilen orijinal HTML'i geri yükle
+        // düzenleme iptal edilince kaldığı yerden devam et
         if (originalRowHtml[id]) {
             row.innerHTML = originalRowHtml[id];
-            delete originalRowHtml[id]; // Kullanımdan sonra sil
+            delete originalRowHtml[id]; 
         } else {
             console.error('Orijinal satır verisi bulunamadı.');
         }
@@ -111,5 +111,5 @@ function deleteRow(id) {
     }
 }
 
-// Formlar için olay dinleyicilerini ekleyin
+// olay dinleyicimiz
 document.getElementById('addForm').addEventListener('submit', addRow);
