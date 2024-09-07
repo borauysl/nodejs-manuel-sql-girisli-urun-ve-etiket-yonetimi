@@ -1,13 +1,13 @@
 const http = require('http');
 const fs = require('fs');
-const mysql = require('mysql2');
+const mysql = require('mysql2'); // mysql modülü
 const url = require('url');
 const querystring = require('querystring');
 const path = require('path');
 
 let connection;
 
-// Sunucu oluşturma
+// sunucu oluşturma
 const server = http.createServer((req, res) => {
     const parsedUrl = url.parse(req.url, true);
     const pathname = parsedUrl.pathname;
@@ -34,7 +34,7 @@ const server = http.createServer((req, res) => {
         req.on('end', () => {
             const { server, database, username, password } = querystring.parse(body);
 
-            // Veritabanı bağlantısı oluştur
+            // veritabanı bağlantısı
             connection = mysql.createConnection({
                 host: server,
                 user: username,
@@ -54,7 +54,7 @@ const server = http.createServer((req, res) => {
         });
     }
     
-    // CRUD işlemleri için tablo sayfası
+    // CRUD işlemlerinin tablosu
     else if (pathname === '/dashboard' && req.method === 'GET') {
         connection.query('SELECT * FROM etiket', (err, results) => {
             if (err) {
@@ -91,7 +91,7 @@ const server = http.createServer((req, res) => {
         });
     }
     
-    // Yeni veri ekleme işlemi
+    // yeni veri ekleme işlemi
     else if (pathname === '/add' && req.method === 'POST') {
         let body = '';
         req.on('data', chunk => {
@@ -115,7 +115,7 @@ const server = http.createServer((req, res) => {
         });
     }
     
-    // Veri güncelleme işlemi
+    // veri güncelleme işlemi
     else if (pathname === '/edit' && req.method === 'POST') {
         let body = '';
         req.on('data', chunk => {
@@ -139,7 +139,7 @@ const server = http.createServer((req, res) => {
         });
     }
     
-    // Veri silme işlemi
+    // veri silme işlemi
     else if (pathname === '/delete' && req.method === 'POST') {
         let body = '';
         req.on('data', chunk => {
@@ -163,7 +163,7 @@ const server = http.createServer((req, res) => {
         });
     }
     
-    // Statik dosyaları sunma
+    // statik dosyaları sunma
     else if (pathname.endsWith('.css') || pathname.endsWith('.js')) {
         fs.readFile(path.join(__dirname, pathname), (err, data) => {
             if (err) {
@@ -181,14 +181,14 @@ const server = http.createServer((req, res) => {
         });
     }
     
-    // Bilinmeyen yollar için 404
+    // bilinmeyen yollar için 404
     else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end('404 Not Found');
     }
 });
 
-// Sunucu 3000 portunda çalışacak
+// sunucu portu
 server.listen(3000, () => {
     console.log('Sunucu çalışıyor: http://localhost:3000');
 });
