@@ -1,4 +1,4 @@
-let originalRowHtml = {}; // Düzenleme moduna geçmeden önce satır HTML'ini saklamak için
+let originalRowHtml = {}; // düzenleme öncesi alınan veri
 
 function addRow(event) {
     event.preventDefault();
